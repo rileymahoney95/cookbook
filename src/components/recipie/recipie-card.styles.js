@@ -1,9 +1,11 @@
 import styled from "styled-components/native";
-import { Text } from 'react-native';
-import { Card } from 'react-native-paper';
+import { Text } from "react-native";
+import { Card } from "react-native-paper";
+import { FlatList } from "react-native";
 
 export const Recipie = styled(Card)`
   background-color: ${(props) => props.theme.colors.bg.primary};
+  margin-bottom: ${(props) => props.theme.space[3]};
   width: 95%;
   align-self: center;
 `;
@@ -24,3 +26,9 @@ export const RecipieCardTitle = styled(Text)`
 export const Info = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
+
+export const RecipieList = styled(FlatList).attrs({
+  contentContainerStyle: {
+    padding: 16,
+  },
+})``;
