@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.highlight {
+  color: var(--primary-red);
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+}
+
+.shareButton {
+  margin-left: 3rem;
+}

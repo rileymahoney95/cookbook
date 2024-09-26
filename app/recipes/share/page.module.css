@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.highlight {
+  color: var(--primary-red);
+}
+
+.main {
+  width: 90%;
+  max-width: 75rem;
+  margin: 3rem auto;
+}
+
