@@ -20,7 +20,7 @@ export default function MainHeaderNav() {
             href='/recipes'
             className={isActive('/recipes') ? styles.activeLink : styles.link}
           >
-            My Recipies
+            My Recipes
           </Link>
         </li>
         <li>

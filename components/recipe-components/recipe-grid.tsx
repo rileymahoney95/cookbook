@@ -1,9 +1,9 @@
 import RecipeItem from './recipe-item';
-import { Recipe } from '@/types';
+import { RecipeEntity } from '@/lib/db/pg/entities/recipe.entity';
 import styles from './recipe-grid.module.css';
 
-interface RecipeItemProps {
-  recipes: Recipe[];
+type RecipeItemProps = {
+  recipes: RecipeEntity[];
 }
 
 export default function RecipesGrid({ recipes }: RecipeItemProps) {

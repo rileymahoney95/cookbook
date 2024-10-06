@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './recipe-item.module.css';
-import { Recipe } from '@/types';
+import { RecipeEntity } from '@/lib/db/pg/entities/recipe.entity';
 
-interface RecipeItemProps {
-  recipe: Recipe;
+type RecipeItemProps = {
+  recipe: RecipeEntity;
 }
 
 export default function RecipeItem({ recipe }: RecipeItemProps) {
-  const { name, author, slug, description } = recipe;
-  const authorName = recipe.author.name;
+  const { name, slug, description } = recipe;
+  const authorName = recipe.user.name;
 
   const imgPath = `/${slug}.jpeg`;
   return (
@@ -20,7 +20,7 @@ export default function RecipeItem({ recipe }: RecipeItemProps) {
         </div>
         <div className={styles.headerContent}>
           <h2>{name}</h2>
-          <p>by {author.name}</p>
+          <p>by {authorName}</p>
         </div>
       </header>
       <div className={styles.content}>

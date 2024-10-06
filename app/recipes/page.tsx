@@ -1,24 +1,19 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 import RecipesGrid from '@/components/recipe-components/recipe-grid';
-import LoadingFallback from './recipes-loading';
 import styles from './page.module.css';
 
-import { getRecipesByUserId } from '@/lib/db';
+import { getRecipesByUserId } from '@/lib/db/pg/db';
 
 export const metadata = {
   title: 'All Recipes',
   description: 'Browse the delicious recipes shared by our vibrant community!',
 };
 
-async function Recipes() {
-  const recipes = await getRecipesByUserId(1);
+export default async function RecipesPage() {
+  const recipes = await getRecipesByUserId(23);
 
-  return <RecipesGrid recipes={recipes} />;
-}
-
-export default function RecipesPage() {
   return (
     <>
       <header className={styles.header}>
@@ -28,7 +23,6 @@ export default function RecipesPage() {
               Delicious recipes, created
               <span className={styles.highlight}> by you</span>
             </h1>
-            
           </div>
           <Link href='/recipes/share' passHref>
             <button className={styles.shareButton}>
@@ -38,9 +32,7 @@ export default function RecipesPage() {
         </div>
       </header>
       <main>
-        <Suspense fallback={<LoadingFallback />}>
-          <Recipes />
-        </Suspense>
+        <RecipesGrid recipes={recipes} />
       </main>
     </>
   );
