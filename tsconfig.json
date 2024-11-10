@@ -29,8 +29,7 @@
     "paths": {
       "@/*": [
         "./*"
-      ],
-      "@entities":["./lib/db/pg/entities/_index.ts"]
+      ]
     },
     "moduleResolution": "node"
   },

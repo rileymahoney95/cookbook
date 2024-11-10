@@ -1,28 +1,63 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './recipe-share-form.module.css';
+import type { Ingredient } from '@/lib/db/pg/entities/types';
+
+type FormRecipeIngredient = {
+  ingredientId: number;
+  quantity: number;
+  uom: string;
+};
 
 export default function RecipeShareForm() {
   const [recipeName, setRecipeName] = useState('');
   const [description, setDescription] = useState('');
   const [servings, setServings] = useState<number>(1);
-  const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
+  const [ingredients, setIngredients] = useState<FormRecipeIngredient[]>([{
+    ingredientId: 0,
+    quantity: 0,
+    uom: ''
+  }]);
+  const [availableIngredients, setAvailableIngredients] = useState<Ingredient[]>([]);
   const [steps, setSteps] = useState(['']);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null); // New state variable
 
+  // Fetch available ingredients when component mounts
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      try {
+        const response = await fetch('/api/ingredients');
+        if (response.ok) {
+          const data = await response.json();
+          setAvailableIngredients(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch ingredients:', error);
+      }
+    };
+    fetchIngredients();
+  }, []);
+
   const handleIngredientChange = (
     index: number,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
     const values = [...ingredients];
-    values[index][event.target.name as 'name' | 'quantity'] = event.target.value;
+    const field = event.target.name as keyof FormRecipeIngredient;
+    values[index][field] = event.target.name === 'ingredientId' || event.target.name === 'quantity'
+      ? parseInt(event.target.value) || 0
+      : event.target.value;
     setIngredients(values);
   };
 
   const handleAddIngredient = () => {
-    setIngredients([...ingredients, { name: '', quantity: '' }]);
+    setIngredients([...ingredients, { 
+      ingredientId: 0,
+      quantity: '',
+      uom: ''
+    }]);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -77,7 +112,7 @@ export default function RecipeShareForm() {
     }
 
     try {
-      const response = await fetch('/api/saveRecipe', {
+      const response = await fetch('/api/recipe', {
         method: 'POST',
         body: formData,
       });
@@ -137,19 +172,32 @@ export default function RecipeShareForm() {
         <label>Ingredients</label>
         {ingredients.map((ingredient, index) => (
           <div key={index} className={styles.ingredient}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Ingredient"
-              value={ingredient.name}
+            <select
+              name="ingredientId"
+              value={ingredient.ingredientId}
               onChange={(event) => handleIngredientChange(index, event)}
               className={styles.input}
-            />
+            >
+              <option value="">Select an ingredient</option>
+              {availableIngredients.map((ing) => (
+                <option key={ing.id} value={ing.id}>
+                  {ing.name}
+                </option>
+              ))}
+            </select>
             <input
               type="text"
               name="quantity"
               placeholder="Quantity"
               value={ingredient.quantity}
+              onChange={(event) => handleIngredientChange(index, event)}
+              className={styles.input}
+            />
+            <input
+              type="text"
+              name="uom"
+              placeholder="Unit of Measure"
+              value={ingredient.uom}
               onChange={(event) => handleIngredientChange(index, event)}
               className={styles.input}
             />

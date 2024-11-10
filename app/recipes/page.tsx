@@ -4,7 +4,7 @@ import Link from 'next/link';
 import RecipesGrid from '@/components/recipe-components/recipe-grid';
 import styles from './page.module.css';
 
-import { getRecipesByUserId } from '@/lib/db/pg/db';
+import { getAllRecipes } from '@/lib/db/pg/db';
 
 export const metadata = {
   title: 'All Recipes',
@@ -12,8 +12,12 @@ export const metadata = {
 };
 
 export default async function RecipesPage() {
-  const recipes = await getRecipesByUserId(23);
+  const recipes = await getAllRecipes();
 
+  if (!recipes) {
+    return <div>No recipes found</div>;
+  }
+  
   return (
     <>
       <header className={styles.header}>

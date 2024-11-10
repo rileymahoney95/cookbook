@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './recipe-item.module.css';
-import { RecipeEntity } from '@/lib/db/pg/entities/recipe.entity';
+import type { Recipe } from '@/lib/db/pg/entities/types';
+
 
 type RecipeItemProps = {
-  recipe: RecipeEntity;
+  recipe: Recipe;
 }
 
-export default function RecipeItem({ recipe }: RecipeItemProps) {
+export default async function RecipeItem({ recipe }: RecipeItemProps) {
   const { name, slug, description } = recipe;
-  const authorName = recipe.user.name;
+  const author = recipe.author;
 
-  const imgPath = `/${slug}.jpeg`;
+  const imgPath = `/recipe-images/${slug}.jpeg`;
   return (
     <article className={styles.article}>
       <header>
@@ -20,7 +21,7 @@ export default function RecipeItem({ recipe }: RecipeItemProps) {
         </div>
         <div className={styles.headerContent}>
           <h2>{name}</h2>
-          <p>by {authorName}</p>
+          <p>by {author.name}</p>
         </div>
       </header>
       <div className={styles.content}>

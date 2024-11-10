@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany } from 'typeorm';
+import type { RecipeIngredient, NutritionalInfo } from './types';
 import { RecipeIngredientEntity } from './recipe-ingredients.entity';
 import { NutritionalInfoEntity } from './nutritional-info.entity';
 
@@ -11,9 +12,12 @@ export class IngredientEntity {
   name: string;
 
   @OneToMany(() => RecipeIngredientEntity, (recipeIngredient) => recipeIngredient.ingredient)
-  recipeIngredients: RecipeIngredientEntity[];
+  recipeIngredients: RecipeIngredient[];
 
-  @OneToOne(() => NutritionalInfoEntity, (nutritionalInfo) => nutritionalInfo.ingredient, { cascade: true })
-  @JoinColumn()
-  nutritionalInfo: NutritionalInfoEntity;
+  @OneToOne(() => NutritionalInfoEntity, (nutritionalInfo) => nutritionalInfo.ingredient, {
+    cascade: true,
+    eager: true,
+    nullable: true
+  })
+  nutritionalInfo: NutritionalInfo;
 }

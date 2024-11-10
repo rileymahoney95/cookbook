@@ -7,28 +7,29 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node ./lib/db/pg/seeders/seed.ts",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:create": "npm run typeorm -- migration:create",
-    "migration:generate": "npm run typeorm -- migration:generate -d ./lib/db/pg/data-source.ts",
-    "migration:run": "npm run typeorm -- migration:run -d ./lib/db/pg/data-source.ts",
-    "migration:revert": "npm run typeorm -- migration:revert -d ./lib/db/pg/data-source.ts"
+    "seed": "ts-node lib/db/pg/seeders/run-seed.ts",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d  ./lib/db/pg/data-source.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d ./lib/db/pg/data-source.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/db/data-source.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.18.0",
     "next": "^14.2.14",
+    "pg": "^8.13.0",
     "react": "^18",
     "react-dom": "^18",
     "reflect-metadata": "^0.2.2",
     "slugify": "^1.6.6",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.20",
-    "typeorm-extension": "^3.6.1"
+    "typeorm-extension": "^3.6.3",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.16.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "ts-node": "^10.9.2",
