@@ -1,6 +1,5 @@
 import RecipeItem from './recipe-item';
 import { RecipeEntity } from '@/lib/db/pg/entities/recipe.entity';
-import styles from './recipe-grid.module.css';
 
 type RecipeItemProps = {
   recipes: RecipeEntity[];
@@ -8,7 +7,7 @@ type RecipeItemProps = {
 
 export default function RecipesGrid({ recipes }: RecipeItemProps) {
   return (
-    <ul className={styles.gridContainer}>
+    <ul className="w-[90%] max-w-[90rem] grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-20 my-8 mx-auto list-none p-0">
       {recipes.map((recipe) => (
         <li key={recipe.id}>
           <RecipeItem recipe={recipe} />

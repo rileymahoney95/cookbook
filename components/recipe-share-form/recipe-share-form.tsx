@@ -14,12 +14,16 @@ export default function RecipeShareForm() {
   const [recipeName, setRecipeName] = useState('');
   const [description, setDescription] = useState('');
   const [servings, setServings] = useState<number>(1);
-  const [ingredients, setIngredients] = useState<FormRecipeIngredient[]>([{
-    ingredientId: 0,
-    quantity: 0,
-    uom: ''
-  }]);
-  const [availableIngredients, setAvailableIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<FormRecipeIngredient[]>([
+    {
+      ingredientId: 0,
+      quantity: 0,
+      uom: '',
+    },
+  ]);
+  const [availableIngredients, setAvailableIngredients] = useState<
+    Ingredient[]
+  >([]);
   const [steps, setSteps] = useState(['']);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null); // New state variable
@@ -46,18 +50,24 @@ export default function RecipeShareForm() {
   ) => {
     const values = [...ingredients];
     const field = event.target.name as keyof FormRecipeIngredient;
-    values[index][field] = event.target.name === 'ingredientId' || event.target.name === 'quantity'
-      ? parseInt(event.target.value) || 0
-      : event.target.value;
+    values[index] = {
+      ...values[index],
+      [field]: event.target.name === 'ingredientId' || event.target.name === 'quantity'
+        ? parseInt(event.target.value) || 0
+        : event.target.value
+    };
     setIngredients(values);
   };
 
   const handleAddIngredient = () => {
-    setIngredients([...ingredients, { 
-      ingredientId: 0,
-      quantity: '',
-      uom: ''
-    }]);
+    setIngredients([
+      ...ingredients,
+      {
+        ingredientId: 0,
+        quantity: 0,
+        uom: '',
+      },
+    ]);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -133,11 +143,11 @@ export default function RecipeShareForm() {
       <h1>Add a New Recipe</h1>
 
       <div className={styles.field}>
-        <label htmlFor="recipeName">Recipe Name</label>
+        <label htmlFor='recipeName'>Recipe Name</label>
         <input
-          type="text"
-          id="recipeName"
-          name="recipeName"
+          type='text'
+          id='recipeName'
+          name='recipeName'
           value={recipeName}
           onChange={(e) => setRecipeName(e.target.value)}
           className={styles.input}
@@ -145,10 +155,10 @@ export default function RecipeShareForm() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="description">Description</label>
+        <label htmlFor='description'>Description</label>
         <textarea
-          id="description"
-          name="description"
+          id='description'
+          name='description'
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className={styles.input}
@@ -156,12 +166,12 @@ export default function RecipeShareForm() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="servings">Servings</label>
+        <label htmlFor='servings'>Servings</label>
         <input
-          type="number"
-          id="servings"
-          name="servings"
-          min="1"
+          type='number'
+          id='servings'
+          name='servings'
+          min='1'
           value={servings}
           onChange={(e) => setServings(parseInt(e.target.value) || 1)}
           className={styles.input}
@@ -173,12 +183,12 @@ export default function RecipeShareForm() {
         {ingredients.map((ingredient, index) => (
           <div key={index} className={styles.ingredient}>
             <select
-              name="ingredientId"
+              name='ingredientId'
               value={ingredient.ingredientId}
               onChange={(event) => handleIngredientChange(index, event)}
               className={styles.input}
             >
-              <option value="">Select an ingredient</option>
+              <option value=''>Select an ingredient</option>
               {availableIngredients.map((ing) => (
                 <option key={ing.id} value={ing.id}>
                   {ing.name}
@@ -186,23 +196,23 @@ export default function RecipeShareForm() {
               ))}
             </select>
             <input
-              type="text"
-              name="quantity"
-              placeholder="Quantity"
+              type='text'
+              name='quantity'
+              placeholder='Quantity'
               value={ingredient.quantity}
               onChange={(event) => handleIngredientChange(index, event)}
               className={styles.input}
             />
             <input
-              type="text"
-              name="uom"
-              placeholder="Unit of Measure"
+              type='text'
+              name='uom'
+              placeholder='Unit of Measure'
               value={ingredient.uom}
               onChange={(event) => handleIngredientChange(index, event)}
               className={styles.input}
             />
             <button
-              type="button"
+              type='button'
               onClick={() => handleRemoveIngredient(index)}
               className={styles.removeButton}
             >
@@ -210,7 +220,11 @@ export default function RecipeShareForm() {
             </button>
           </div>
         ))}
-        <button type="button" onClick={handleAddIngredient} className={styles.addButton}>
+        <button
+          type='button'
+          onClick={handleAddIngredient}
+          className={styles.addButton}
+        >
           Add Ingredient
         </button>
       </div>
@@ -220,14 +234,14 @@ export default function RecipeShareForm() {
         {steps.map((step, index) => (
           <div key={index} className={styles.step}>
             <input
-              type="text"
+              type='text'
               placeholder={`Step ${index + 1}`}
               value={step}
               onChange={(event) => handleStepChange(index, event)}
               className={styles.input}
             />
             <button
-              type="button"
+              type='button'
               onClick={() => handleRemoveStep(index)}
               className={styles.removeButton}
             >
@@ -235,29 +249,37 @@ export default function RecipeShareForm() {
             </button>
           </div>
         ))}
-        <button type="button" onClick={handleAddStep} className={styles.addButton}>
+        <button
+          type='button'
+          onClick={handleAddStep}
+          className={styles.addButton}
+        >
           Add Step
         </button>
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="image">Image</label>
+        <label htmlFor='image'>Image</label>
         <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
+          type='file'
+          id='image'
+          name='image'
+          accept='image/*'
           onChange={handleImageChange}
           className={styles.input}
         />
         {imagePreviewUrl && (
           <div className={styles.imagePreview}>
-            <img src={imagePreviewUrl} alt="Image Preview" className={styles.previewImage} />
+            <img
+              src={imagePreviewUrl}
+              alt='Image Preview'
+              className={styles.previewImage}
+            />
           </div>
         )}
       </div>
 
-      <button type="submit" className={styles.submitButton}>
+      <button type='submit' className={styles.submitButton}>
         Submit Recipe
       </button>
     </form>

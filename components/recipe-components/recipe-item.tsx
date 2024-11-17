@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from './recipe-item.module.css';
 import type { Recipe } from '@/lib/db/pg/entities/types';
 
 
@@ -14,19 +13,19 @@ export default async function RecipeItem({ recipe }: RecipeItemProps) {
 
   const imgPath = `/recipe-images/${slug}.jpeg`;
   return (
-    <article className={styles.article}>
+    <article className="flex flex-col justify-between h-full rounded-lg shadow-lg overflow-hidden transition-all duration-300 ease-in-out">
       <header>
-        <div className={styles.imageContainer}>
+        <div className="relative h-60">
           <Image src={imgPath} alt={name} layout='fill' objectFit='cover' />
         </div>
-        <div className={styles.headerContent}>
+        <div className="p-2">
           <h2>{name}</h2>
           <p>by {author.name}</p>
         </div>
       </header>
-      <div className={styles.content}>
-        <p className={styles.description}>{description}</p>
-        <button className={styles.button}>
+      <div className="p-2">
+        <p className="mb-2">{description}</p>
+        <button>
           <Link href={`/recipes/${slug}`}>View Details</Link>
         </button>
       </div>

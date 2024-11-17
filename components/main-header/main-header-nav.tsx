@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import styles from './main-header-nav.module.css';
 
 export default function MainHeaderNav() {
   const path = usePathname();
@@ -12,13 +11,17 @@ export default function MainHeaderNav() {
   };
 
   return (
-    <nav className={styles.nav}>
-      <ul>
+    <nav>
+      <ul className="flex gap-6 text-xl list-none">
         <li>
           <Link
             color='foreground'
             href='/recipes'
-            className={isActive('/recipes') ? styles.activeLink : styles.link}
+            className={
+              isActive('/recipes')
+                ? 'font-bold text-primary-red'
+                : 'text-inherit font-normal hover:text-primary-red hover:shadow-glow'
+            }
           >
             My Recipes
           </Link>
@@ -28,7 +31,9 @@ export default function MainHeaderNav() {
             color='foreground'
             href='/recipes/share'
             className={
-              isActive('/recipes/share') ? styles.activeLink : styles.link
+              isActive('/recipes/share')
+                ? 'font-bold text-primary-red'
+                : 'text-inherit font-normal hover:text-primary-red hover:shadow-glow'
             }
           >
             Share

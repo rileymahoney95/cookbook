@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, ChangeEvent } from 'react';
-import styles from './image-picker.module.css';
 import Image from 'next/image';
 
 interface ImagePickerProps {
@@ -39,22 +38,23 @@ export default function ImagePicker({ label, name }: ImagePickerProps) {
   };
 
   return (
-    <div className={styles.picker}>
+    <div>
       <label htmlFor='image'>{label}</label>
-      <div className={styles.controls}>
-        <div className={styles.preview}>
+      <div className="flex items-center gap-6 mb-4">
+        <div className="w-40 h-40 border-2 border-gray-400 flex justify-center items-center text-center text-gray-400 relative">
           {pickedImage ? (
             <Image
               src={pickedImage}
               alt='The image selected by the user.'
               fill
+              className="object-cover"
             />
           ) : (
-            <p>No image picked yet.</p>
+            <p className="m-0 p-4">No image picked yet.</p>
           )}
         </div>
         <input
-          className={styles.input}
+          className="hidden"
           type='file'
           id='image'
           accept='image/png, image/jpeg'
@@ -64,7 +64,7 @@ export default function ImagePicker({ label, name }: ImagePickerProps) {
           required
         />
         <button
-          className={styles.button}
+          className="px-6 py-4 bg-blue-500 hover:bg-gray-400 focus:bg-gray-400"
           type='button'
           onClick={handlePickClick}
         >
