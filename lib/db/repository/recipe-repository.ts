@@ -1,30 +1,39 @@
 'use server';
 
 import { DataSource } from 'typeorm/data-source/DataSource';
-import { pgDatasource } from './data-source';
-import { RecipeEntity } from './entities/recipe.entity';
-import { Ingredient } from './entities/types';
-import { IngredientEntity } from './entities/ingredient.entity';
+import { initializeDataSource } from '../pg/data-source';
+import { RecipeEntity } from '../pg/entities/recipe.entity';
+import { Recipe } from '../../types/recipe';
+import { mapEntityToType } from '@/lib/mappers/recipe-mapper';
 
 let datasource: DataSource;
 
 export const getDataSource = async () => {
   if (!datasource) {
-    datasource = await pgDatasource.initialize();
+    datasource = await initializeDataSource();
   }
   return datasource;
 };
 
-export const getAllRecipes = async (): Promise<RecipeEntity[]> => {
+export const getAllRecipes = async (): Promise<Recipe[]> => {
   try {
     const pg = await getDataSource();
     const recipes = await pg.getRepository(RecipeEntity).find({
       relations: {
         author: true,
         steps: true,
+        recipeIngredients: {
+          ingredient: {
+            nutritionalInfo: true,
+          },
+        },
       },
+      order: {
+        id: 'DESC'
+      }
     });
-    return recipes;
+    
+    return recipes.map(recipe => mapEntityToType(recipe));
   } catch (error) {
     if (error instanceof Error) {
       console.error('Failed to fetch recipes:', error.message);
@@ -56,20 +65,5 @@ export const getRecipesByAuthorId = async (
       );
     }
     throw new Error('Failed to fetch recipes for author');
-  }
-};
-
-export const getIngredients = async (): Promise<IngredientEntity[]> => {
-  try {
-    const pg = await getDataSource();
-    const ingredients = await pg.getRepository(IngredientEntity).find();
-    return ingredients;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error('Failed to fetch ingredients:', error.message);
-    } else {
-      console.error('An unknown error occurred while fetching ingredients');
-    }
-    throw new Error('Failed to fetch ingredients');
   }
 };

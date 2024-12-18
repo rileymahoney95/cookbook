@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getIngredients } from '@/lib/db/pg/db';
+import { getIngredients } from '@/lib/db/repository/recipe-repository';
 
 export async function GET() {
   try {

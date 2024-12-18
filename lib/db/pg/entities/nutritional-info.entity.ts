@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import type { Ingredient } from './types';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { IngredientEntity } from './ingredient.entity';
+import type { IngredientEntity as IngredientType } from './types';
 
-@Entity("nutritional_info")
+@Entity('nutritional_info')
 export class NutritionalInfoEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,9 +28,13 @@ export class NutritionalInfoEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   fat?: number;
 
-  @OneToOne(() => IngredientEntity, (ingredient) => ingredient.nutritionalInfo, {
-    onDelete: 'CASCADE'
-  })
+  @OneToOne(
+    () => IngredientEntity,
+    (ingredient) => ingredient.nutritionalInfo,
+    {
+      onDelete: 'CASCADE',
+    }
+  )
   @JoinColumn({ name: 'ingredient_id' })
-  ingredient: Ingredient;
+  ingredient: IngredientType;
 }

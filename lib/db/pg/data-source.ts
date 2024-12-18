@@ -52,7 +52,6 @@ const DATA_SOURCE_OPTIONS: DataSourceOptions & SeederOptions = {
     NutritionalInfoEntity,
   ],
   migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
-  // seeds: [DatabaseSeeder],
 };
 
 export const pgDatasource = new DataSource(DATA_SOURCE_OPTIONS);

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './recipe-share-form.module.css';
-import type { Ingredient } from '@/lib/db/pg/entities/types';
+import type { Ingredient } from '@/lib/types/recipe';
 
 type FormRecipeIngredient = {
   ingredientId: number;
@@ -52,9 +52,10 @@ export default function RecipeShareForm() {
     const field = event.target.name as keyof FormRecipeIngredient;
     values[index] = {
       ...values[index],
-      [field]: event.target.name === 'ingredientId' || event.target.name === 'quantity'
-        ? parseInt(event.target.value) || 0
-        : event.target.value
+      [field]:
+        event.target.name === 'ingredientId' || event.target.name === 'quantity'
+          ? parseInt(event.target.value) || 0
+          : event.target.value,
     };
     setIngredients(values);
   };

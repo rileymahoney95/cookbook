@@ -1,9 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany } from 'typeorm';
-import type { RecipeIngredient, NutritionalInfo } from './types';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  OneToMany,
+} from 'typeorm';
 import { RecipeIngredientEntity } from './recipe-ingredients.entity';
 import { NutritionalInfoEntity } from './nutritional-info.entity';
+import type { RecipeIngredientEntity as RecipeIngredientType } from './types';
+import type { NutritionalInfoEntity as NutritionalInfoType } from './types';
 
-@Entity("ingredients")
+@Entity('ingredients')
 export class IngredientEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,13 +18,20 @@ export class IngredientEntity {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @OneToMany(() => RecipeIngredientEntity, (recipeIngredient) => recipeIngredient.ingredient)
-  recipeIngredients: RecipeIngredient[];
+  @OneToMany(
+    () => RecipeIngredientEntity,
+    (recipeIngredient) => recipeIngredient.ingredient
+  )
+  recipeIngredients: RecipeIngredientType[];
 
-  @OneToOne(() => NutritionalInfoEntity, (nutritionalInfo) => nutritionalInfo.ingredient, {
-    cascade: true,
-    eager: true,
-    nullable: true
-  })
-  nutritionalInfo: NutritionalInfo;
+  @OneToOne(
+    () => NutritionalInfoEntity,
+    (nutritionalInfo) => nutritionalInfo.ingredient,
+    {
+      cascade: true,
+      eager: true,
+      nullable: true,
+    }
+  )
+  nutritionalInfo: NutritionalInfoType;
 }

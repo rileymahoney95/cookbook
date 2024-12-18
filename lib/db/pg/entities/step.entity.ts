@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import type { Recipe } from './types';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { RecipeEntity } from './recipe.entity';
+import type { RecipeEntity as RecipeType } from './types';
 
-@Entity("steps")
+@Entity('steps')
 export class StepEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,8 +24,8 @@ export class StepEntity {
 
   @ManyToOne(() => RecipeEntity, (recipe) => recipe.steps, {
     onDelete: 'CASCADE',
-    nullable: false
+    nullable: false,
   })
   @JoinColumn({ name: 'recipe_id' })
-  recipe: Recipe;
+  recipe: RecipeType;
 }
