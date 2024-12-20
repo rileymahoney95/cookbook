@@ -15,6 +15,37 @@ export const getDataSource = async () => {
   return datasource;
 };
 
+export const getRecipeById = async (id: number): Promise<Recipe> => {
+  try {
+    const pg = await getDataSource();
+    const recipe = await pg.getRepository(RecipeEntity).findOne({
+      where: { id },
+      relations: {
+        author: true,
+        steps: true,
+        recipeIngredients: {
+          ingredient: {
+            nutritionalInfo: true,
+          },
+        },
+      }
+    });
+    
+    if (!recipe) {
+      throw new Error('Recipe not found');
+    }
+    
+    return mapEntityToType(recipe);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Failed to fetch recipe:', error.message);
+    } else {
+      console.error('An unknown error occurred while fetching recipe', error);
+    }
+    throw new Error(`Failed to fetch recipe ${id}`);
+  }
+};  
+
 export const getAllRecipes = async (): Promise<Recipe[]> => {
   try {
     const pg = await getDataSource();

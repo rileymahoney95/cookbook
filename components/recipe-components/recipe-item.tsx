@@ -21,7 +21,7 @@ export default function RecipeItem({ recipe }: RecipeItemProps) {
     }
   }, [recipe]);
 
-  const { name, slug, description } = recipe;
+  const { id, name, slug, description } = recipe;
   const author = recipe.author;
 
   const imgPath = `/recipe-images/${slug}.jpeg`;
@@ -37,9 +37,8 @@ export default function RecipeItem({ recipe }: RecipeItemProps) {
         </div>
       </header>
       <div className='p-2'>
-        <p className='mb-2'>{description}</p>
-        <button>
-          <Link href={`/recipes/${slug}`}>View Details</Link>
+        <button className="bg-gray-600 text-white border-none py-2 px-4 rounded-md cursor-pointer transition-colors duration-300 hover:bg-gray-700">
+          <Link href={`/recipes/${id}`}>View Details</Link>
         </button>
       </div>
     </article>

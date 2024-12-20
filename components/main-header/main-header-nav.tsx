@@ -23,7 +23,7 @@ export default function MainHeaderNav() {
                 : 'text-inherit font-normal hover:text-primary-red hover:shadow-glow'
             }
           >
-            My Recipes
+            Explore
           </Link>
         </li>
         <li>
@@ -36,7 +36,7 @@ export default function MainHeaderNav() {
                 : 'text-inherit font-normal hover:text-primary-red hover:shadow-glow'
             }
           >
-            Share
+            Share Recipe
           </Link>
         </li>
       </ul>
