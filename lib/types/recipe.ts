@@ -2,7 +2,7 @@
 export type Ingredient = {
   id: number;
   name: string;
-  nutritionalInfo: NutritionalInfo;
+  nutritionalInfo?: NutritionalInfo;
 }
 
 export type NutritionalInfo = {

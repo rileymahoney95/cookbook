@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getIngredients } from '@/lib/db/repository/recipe-repository';
+import { getTopIngredients } from '@/lib/db/repository/ingredient-repository';
 
 export async function GET() {
   try {
-    const ingredients = await getIngredients();
+    const ingredients = await getTopIngredients();
 
     return NextResponse.json(ingredients);
   } catch (error) {

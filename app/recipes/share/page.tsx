@@ -8,7 +8,7 @@ export default function ShareRecipePage() {
           Share your <span className="text-primary-red">favorite recipe</span>
         </h1>
       </header>
-      <main className="w-[90%] max-w-[75rem] mx-auto my-12">
+      <main className="w-[100%] mx-auto my-12">
         <RecipeShareForm />
       </main>
     </>
